@@ -26,14 +26,24 @@ struct ListView: View {
                     
                 }
                 .padding()
+                
+                List{
+                    
+                    Text("Do a workout")
+                    Text("Study for biology")
+                    Text("Finish Avenger book for Gilly")
+                }
             }
             
         }
+        .navigationTitle("To do")
     }
 }
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        ListView()
+        NavigationView{
+            ListView()
+        }
     }
 }
