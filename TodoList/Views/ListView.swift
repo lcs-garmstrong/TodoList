@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct ListView: View {
+    // MARK: Stored properties
+    @State var todoItems: [TodoItem] = existingTodoItems
     
+    @State var newItemDescription: String = ""
     
     // MARK: COMPUTED PROPERTIES
     var body: some View {
         NavigationView {
             VStack {
                 HStack{
-                    TextField("Enter a to-do item", text: Binding.constant(""))
+                    TextField("Enter a to-do item", text: $newItemDescription)
                     
                     Button(action: {
                         
@@ -27,7 +30,7 @@ struct ListView: View {
                 }
                 .padding(20)
                 
-                List{
+                List(existingTodoItems) { currentItem in
                     HStack{
                         Image(systemName: "circle")
                             .foregroundColor(.blue)
