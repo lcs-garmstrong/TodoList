@@ -25,13 +25,26 @@ struct ListView: View {
                     } )
                     
                 }
-                .padding()
+                .padding(20)
                 
                 List{
+                    HStack{
+                        Image(systemName: "circle")
+                            .foregroundColor(.blue)
+                        Text("Do a workout")
+                    }
                     
-                    Text("Do a workout")
-                    Text("Study for biology")
-                    Text("Finish Avenger book for Gilly")
+                    HStack{
+                        Image(systemName: "checkmark.circle")
+                            .foregroundColor(.blue)
+                        Text("Study for biology")
+                    }
+                    
+                    HStack{
+                        Image(systemName: "circle")
+                            .foregroundColor(.blue)
+                        Text("Finish Avenger book for Gilly")
+                    }
                 }
             }
             
