@@ -31,11 +31,12 @@ struct ListView: View {
                         Task {
                             // Write to the database
                             try await db!.transaction { core in
-                                try core.query("INSERT INTO TodoItem (description) VALUES (?)", newItemDescription)}
-                        }
+                                try core.query("INSERT INTO TodoItem (description) VALUES (?)", newItemDescription)
+                            }
                             //Clear the input field
                             newItemDescription = ""
-                            
+                        }
+
                         }, label: {
                             Text("ADD")
                                 .font(.caption)
@@ -58,7 +59,7 @@ struct ListView: View {
                         Task {
                             try await db!.transaction { core in
                                 // change status
-                                try core.query("UPDATE todoItem SET completed = (?) WhHERE id = (?)",
+                                try core.query("UPDATE todoItem SET completed = (?) WHERE id = (?)",
                                                !currentItem.completed,
                                                currentItem.id)
                             }
@@ -68,17 +69,16 @@ struct ListView: View {
                 }
                 
             }
+            .navigationTitle("To Do")
         }
-        .navigationTitle("To Do")
+        
     }
 }
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView{
-            ListView()
-            // pull from database
-                .environment(\.blackbirdDatabase, AppDatabase.instance)
-        }
+        ListView()
+        // pull from database
+            .environment(\.blackbirdDatabase, AppDatabase.instance)
     }
 }
