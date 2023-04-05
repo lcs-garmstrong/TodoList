@@ -13,6 +13,7 @@ struct TodoListApp: App {
     var body: some Scene {
         WindowGroup {
             ListView()
+            // Pull info from database
                 .environment(\.blackbirdDatabase, AppDatabase.instance)
         }
     }

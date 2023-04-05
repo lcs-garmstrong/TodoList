@@ -5,24 +5,18 @@
 //  Created by Graeme Armstrong on 2023-04-04.
 //
 
-import Foundation
-struct TodoItem: Identifiable {
-    var id:Int
-    var description: String
-    var completed: Bool
-}
+import Blackbird
 
-var existingTodoItems = [
-    TodoItem(id: 1, description: "Do a workout", completed: false)
-    
-    ,
-    
-    TodoItem(id: 2, description: "Study for biology", completed: true)
-    
-    ,
-    
-    TodoItem(id: 3, description: "Finish Avenger book for Gilly", completed: false)
-    
-    ,
-    
-]
+import Foundation
+
+
+
+struct TodoItem: BlackbirdModel {
+
+    @BlackbirdColumn var id: Int
+
+    @BlackbirdColumn var description: String
+
+    @BlackbirdColumn var completed: Bool
+
+}
