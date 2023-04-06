@@ -36,37 +36,41 @@ struct ListView: View {
                             //Clear the input field
                             newItemDescription = ""
                         }
-
-                        }, label: {
-                            Text("ADD")
-                                .font(.caption)
-                        })
+                        
+                    }, label: {
+                        Text("ADD")
+                            .font(.caption)
+                    })
                 }
                 .padding(20)
-                           
-                List(todoItems.results) { currentItem in
-                    Label(title: {
-                        Text(currentItem.description)
-                    }, icon: {
-                        if currentItem.completed == true {
-                            Image(systemName: "checkmark.circle")
-                        }
-                        else {
-                            Image(systemName: "circle")
-                        }
-                    })
-                    .onTapGesture {
-                        Task {
-                            try await db!.transaction { core in
-                                // change status
-                                try core.query("UPDATE todoItem SET completed = (?) WHERE id = (?)",
-                                               !currentItem.completed,
-                                               currentItem.id)
+                
+                List {
+                    
+                    ForEach(todoItems.results) { currentItem in
+                        Label(title: {
+                            Text(currentItem.description)
+                        }, icon: {
+                            if currentItem.completed == true {
+                                Image(systemName: "checkmark.circle")
+                            }
+                            else {
+                                Image(systemName: "circle")
+                            }
+                        })
+                        .onTapGesture {
+                            Task {
+                                try await db!.transaction { core in
+                                    // change status
+                                    try core.query("UPDATE todoItem SET completed = (?) WHERE id = (?)",
+                                                   !currentItem.completed,
+                                                   currentItem.id)
+                                }
                             }
                         }
                     }
                     
                 }
+                
                 
             }
             .navigationTitle("To Do")
