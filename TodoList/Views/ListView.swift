@@ -19,8 +19,8 @@ struct ListView: View {
     }) var todoItems
     
     @State var newItemDescription: String = ""
-    // MARK: Computed properties
     
+    // MARK: Computed properties
     var body: some View {
         NavigationView {
             VStack {
@@ -68,15 +68,39 @@ struct ListView: View {
                             }
                         }
                     }
-                    
+                    .onDelete(perform: removeRows)
                 }
                 
                 
             }
             .navigationTitle("To Do")
         }
-        
     }
+    
+    // MARK: Functions
+    func removeRows(at offsets: IndexSet) {
+        Task {
+            
+            try await db!.transaction{ core in
+                
+                // get the id of the item to be deleted
+                var idList = ""
+                for offset in offsets{
+                    idList += "\(todoItems.results[offset].id),"
+                }
+                
+                // remove final comama
+                print(idList)
+                idList.removeLast()
+                print(idList)
+                
+                // deletethe rows from database
+                try core.query(" DELETE FROM TodoItem WHERE id IN (?)", idList)
+                
+            }
+        }
+    }
+    
 }
 
 struct SwiftUIView_Previews: PreviewProvider {
