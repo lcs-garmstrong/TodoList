@@ -15,10 +15,13 @@ struct ListView: View {
     Blackbird.Database?
     
     @BlackbirdLiveModels({ db in
-        try await TodoItem.read(from: db)
+        try await TodoItem.read(from: db,
+        sqlWhere: "description LIKE ?", "%\(searchText)%")
     }) var todoItems
     
     @State var newItemDescription: String = ""
+    
+    @State var searchText = ""
     
     // MARK: Computed properties
     var body: some View {
@@ -70,7 +73,7 @@ struct ListView: View {
                     }
                     .onDelete(perform: removeRows)
                 }
-                
+                .searchable(text: $searchText)
                 
             }
             .navigationTitle("To Do")
@@ -96,11 +99,9 @@ struct ListView: View {
                 
                 // deletethe rows from database
                 try core.query(" DELETE FROM TodoItem WHERE id IN (?)", idList)
-                
             }
         }
     }
-    
 }
 
 struct SwiftUIView_Previews: PreviewProvider {
