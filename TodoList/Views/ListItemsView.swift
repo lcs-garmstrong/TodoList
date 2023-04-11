@@ -15,10 +15,8 @@ struct ListItemsView: View {
     @Environment(\.blackbirdDatabase) var db:
     Blackbird.Database?
     
-    @BlackbirdLiveModels({ db in
-        try await TodoItem.read(from: db,
-        sqlWhere: "description LIKE ?", "%\(searchText)%")
-    }) var todoItems
+    // list of to do items to be compelted
+    @BlackbirdLiveModels var todoItems: Blackbird.LiveResults<TodoItem>
     
     // MARK: Computed properties
     var body: some View {
@@ -49,6 +47,19 @@ struct ListItemsView: View {
             .onDelete(perform: removeRows)
         }
     }
+    
+    // MARK: Initializer(s)
+    
+    init(filteredOn searchText: String) {
+        
+        // initialize the last model
+        _todoItems = BlackbirdLiveModels({ db in
+            try await TodoItem.read(from: db,
+            sqlWhere: "description LIKE ?", "%\(searchText)%")
+        }) 
+        
+    }
+    
     
     // MARK: Functions
     func removeRows(at offsets: IndexSet) {

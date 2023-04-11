@@ -14,8 +14,10 @@ struct ListView: View {
     @Environment(\.blackbirdDatabase) var db:
     Blackbird.Database?
     
+    // the item currently being added
     @State var newItemDescription: String = ""
     
+    // the current search text
     @State var searchText = ""
     
     // MARK: Computed properties
@@ -42,7 +44,7 @@ struct ListView: View {
                 }
                 .padding(20)
                 
-
+                ListItemsView(filteredOn: searchText)
                 .searchable(text: $searchText)
                 
             }
