@@ -87,6 +87,8 @@ struct ListItemsView: View {
 
 struct ListItemsView_Previews: PreviewProvider {
     static var previews: some View {
-        ListItemsView()
+        ListItemsView(filteredOn: "")
+        // pull from database
+            .environment(\.blackbirdDatabase, AppDatabase.instance)
     }
 }
